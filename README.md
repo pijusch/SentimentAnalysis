@@ -11,7 +11,7 @@ Data Set 1:
 - Validation Accuracy: .91 after 30 epochs
 
 Data Set 2:
-- Validation Accuracy: .84 after 30 epochs
+- Validation Accuracy: .86 after 30 epochs
 
 ##SVM
 
