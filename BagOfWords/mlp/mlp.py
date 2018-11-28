@@ -44,7 +44,7 @@ vocab = vocab.split()
 vocab = set(vocab)
 
 #Training set
-dataset = "dataset_1" #Change data set here: dataset_1 or dataset_2
+dataset = "dataset_2" #Change data set here: dataset_1 or dataset_2
 
 pos_reviews = util.loadReviews('../data_sets/' + dataset + '/pos', vocab, True)
 neg_reviews = util.loadReviews('../data_sets/' + dataset + '/neg', vocab, True)

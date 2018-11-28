@@ -1,4 +1,4 @@
-Results from Dataset 2:
+Results from Dataset 1:
           binary      count       freq      tfidf
 count  10.000000  10.000000  10.000000  10.000000
 mean    0.918000   0.892000   0.873000   0.873500
@@ -74,4 +74,4 @@ Epoch 29/30
 Epoch 30/30
  - 1s - loss: 2.7548e-05 - acc: 1.0000
 
-Accuracy: 91.0
+Accuracy: 90.5
