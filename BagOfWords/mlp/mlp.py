@@ -8,6 +8,8 @@ from keras.layers import Dense
 from keras.layers import Dropout
 from pandas import DataFrame
 from matplotlib import pyplot
+from sklearn.neural_network import *
+from sklearn.metrics import average_precision_score
 
 def evaluateMode(x_train, y_train, x_test, y_test):
     scores = list()
@@ -25,6 +27,12 @@ def evaluateMode(x_train, y_train, x_test, y_test):
 
         #Evaluate network on testing data
         loss, acc = model.evaluate(x_test, y_test, verbose=0)
+
+        #Average Precision Recall Score - testing purposes
+        #y_score = model.predict_proba(x_test)
+        #average_precision = average_precision_score(y_test, y_score)
+        #print('Average precision-recall score: {0:0.2f}'.format(average_precision))
+
         scores.append(acc)
         print('%d accuracy: %s' % ((i+1), acc*100))
     return scores
