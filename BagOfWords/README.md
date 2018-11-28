@@ -5,4 +5,4 @@ Data set 1 can be found from: http://www.cs.cornell.edu/people/pabo/movie-review
 Polarity Dataset v2.0
 
 
-Data set 2 can be found from: 
+Data set 2 can be found from: https://github.com/mchablani/deep-learning/tree/master/sentiment-network 
