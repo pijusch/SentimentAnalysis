@@ -6,8 +6,10 @@
 Validation Accuracy (0-1 Classification): .87-.88 after 30 epochs
 
 ##MLP
+
 Data Set 1:
 - Validation Accuracy: .91 after 30 epochs
+
 Data Set 2:
 - Validation Accuracy: .84 after 30 epochs
 
