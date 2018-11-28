@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import util #preprocessing
 from numpy import array
 from keras.preprocessing.text import Tokenizer
@@ -42,13 +44,15 @@ vocab = vocab.split()
 vocab = set(vocab)
 
 #Training set
-pos_reviews = util.loadReviews('data/pos', vocab, True)
-neg_reviews = util.loadReviews('data/neg', vocab, True)
+dataset = "dataset_2" #Change data set here: dataset_1 or dataset_2
+
+pos_reviews = util.loadReviews('../data_sets/' + dataset + '/pos', vocab, True)
+neg_reviews = util.loadReviews('../data_sets/' + dataset + '/neg', vocab, True)
 train_rev = pos_reviews+neg_reviews
 
 #Testing Set
-pos_reviews = util.loadReviews('data/pos', vocab, False)
-neg_reviews = util.loadReviews('data/neg', vocab, False)
+pos_reviews = util.loadReviews('../data_sets/' + dataset + '/pos', vocab, False)
+neg_reviews = util.loadReviews('../data_sets/' + dataset + '/neg', vocab, False)
 test_rev = pos_reviews+neg_reviews
 
 #Labels
@@ -56,20 +60,22 @@ y_train = array([0 for _ in range(900)] + [1 for _ in range(900)])
 y_test = array([0 for _ in range(100)] + [1 for _ in range(100)])
 
 #Obtain results for different word scoring modes
-modes = ['binary', 'count', 'freq', 'tfidf']  #Binary: 1(word exists) or 0(does not exist)
+modes = ['binary'] # Binary produced best results
+
+#modes = ['binary', 'count', 'freq', 'tfidf']  #Binary: 1(word exists) or 0(does not exist)
                                               #Count: integer that identifies occurrence for each Word
                                               #TF-IDF: words scored on frequency, but penalized when common amongst all documents (example: stopwords)
                                               #Freq: words scored on frequency within a review
 results = DataFrame()
 for mode in modes:
     x_train, x_test = dataPrep(train_rev, test_rev, mode)
-    print('Word Scoring Method: %s' % (mode))
+    print('\n Word Scoring Method: %s' % (mode))
     results[mode] = evaluateMode(x_train, y_train, x_test, y_test)
 
 #Print results in table and plot format
-print(results.describe())
-results.boxplot()
-pyplot.show()
+#print(results.describe())
+#results.boxplot()
+#pyplot.show()
 
 # Sample reviews - EDIT THIS TO TEST MLP NETWORK (0 if positive, 1 if negative)
 #text1 = "The first film, a frenetic and hilarious tribute to superhero films and imbued with 1950s style, was an absolute masterpiece, with great characters and hugely inventive action set pieces. This one is a worthy successor. That’s all you need to know"

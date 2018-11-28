@@ -8,7 +8,8 @@ from collections import Counter
 
 #Open file in read-only and extract content into variable 'content'
 def loadFile(filename):
-    openFile = open(filename, 'r')
+    openFile = open(filename, 'r') 				    #Use this line for data set 1
+    #openFile = open(filename, encoding='latin-1') 		#Use this line for data set 2
     content = openFile.read()
     openFile.close()
     return content
