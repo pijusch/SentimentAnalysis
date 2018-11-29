@@ -15,4 +15,4 @@ Data Set 2:
 
 ##SVM
 
-Validation Accuracy: 88%
+Validation Accuracy for both data sets: 88%
