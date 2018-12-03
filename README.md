@@ -7,9 +7,12 @@ Validation Accuracy (0-1 Classification): .87-.88 after 30 epochs
 
 ##MLP
 
-Validation Accuracy: .91 after 30 epochs
-- Dataset can be found at BagOfWords/mlp/README.md
+Data Set 1:
+- Validation Accuracy: .905 after 30 epochs
+
+Data Set 2:
+- Validation Accuracy: .835 after 30 epochs
 
 ##SVM
 
-Validation Accuracy: .59 after 30 epochs
+Validation Accuracy for both data sets: 88%

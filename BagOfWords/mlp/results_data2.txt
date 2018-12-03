@@ -1,0 +1,77 @@
+Results from Dataset 1:
+          binary      count       freq      tfidf
+count  10.000000  10.000000  10.000000  10.000000
+mean    0.871500   0.841000   0.831000   0.845500
+std     0.009733   0.009369   0.005164   0.023028
+min     0.860000   0.830000   0.820000   0.815000
+25%     0.865000   0.831250   0.830000   0.822500
+50%     0.870000   0.842500   0.832500   0.855000
+75%     0.878750   0.848750   0.835000   0.863750
+max     0.890000   0.855000   0.835000   0.870000
+
+PS C:\Users\Luv Patel\Documents\GitHub\SentimentAnalysis\BagOfWords\mlp> python mlp.py
+Using TensorFlow backend.
+
+ Word Scoring Method: binary
+Epoch 1/30
+ - 1s - loss: 0.4894 - acc: 0.8078
+Epoch 2/30
+ - 1s - loss: 0.1215 - acc: 0.9844
+Epoch 3/30
+ - 1s - loss: 0.0406 - acc: 0.9989
+Epoch 4/30
+ - 1s - loss: 0.0201 - acc: 1.0000
+Epoch 5/30
+ - 1s - loss: 0.0118 - acc: 1.0000
+Epoch 6/30
+ - 1s - loss: 0.0078 - acc: 1.0000
+Epoch 7/30
+ - 1s - loss: 0.0056 - acc: 1.0000
+Epoch 8/30
+ - 1s - loss: 0.0042 - acc: 1.0000
+Epoch 9/30
+ - 1s - loss: 0.0032 - acc: 1.0000
+Epoch 10/30
+ - 1s - loss: 0.0026 - acc: 1.0000
+Epoch 11/30
+ - 1s - loss: 0.0021 - acc: 1.0000
+Epoch 12/30
+ - 1s - loss: 0.0018 - acc: 1.0000
+Epoch 13/30
+ - 1s - loss: 0.0015 - acc: 1.0000
+Epoch 14/30
+ - 1s - loss: 0.0013 - acc: 1.0000
+Epoch 15/30
+ - 1s - loss: 0.0011 - acc: 1.0000
+Epoch 16/30
+ - 1s - loss: 9.7062e-04 - acc: 1.0000
+Epoch 17/30
+ - 1s - loss: 8.5457e-04 - acc: 1.0000
+Epoch 18/30
+ - 1s - loss: 7.5800e-04 - acc: 1.0000
+Epoch 19/30
+ - 1s - loss: 6.7633e-04 - acc: 1.0000
+Epoch 20/30
+ - 1s - loss: 6.0594e-04 - acc: 1.0000
+Epoch 21/30
+ - 1s - loss: 5.4729e-04 - acc: 1.0000
+Epoch 22/30
+ - 1s - loss: 4.9616e-04 - acc: 1.0000
+Epoch 23/30
+ - 1s - loss: 4.5162e-04 - acc: 1.0000
+Epoch 24/30
+ - 1s - loss: 4.1252e-04 - acc: 1.0000
+Epoch 25/30
+ - 1s - loss: 3.7796e-04 - acc: 1.0000
+Epoch 26/30
+ - 1s - loss: 3.4757e-04 - acc: 1.0000
+Epoch 27/30
+ - 1s - loss: 3.1993e-04 - acc: 1.0000
+Epoch 28/30
+ - 1s - loss: 2.9568e-04 - acc: 1.0000
+Epoch 29/30
+ - 1s - loss: 2.7374e-04 - acc: 1.0000
+Epoch 30/30
+ - 1s - loss: 2.5435e-04 - acc: 1.0000
+
+Accuracy: 83.5

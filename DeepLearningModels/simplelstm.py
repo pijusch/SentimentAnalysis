@@ -16,16 +16,17 @@ from keras.utils import to_categorical
 from keras.callbacks import ModelCheckpoint
 import numpy as np
 import argparse
+import pickle
 import gensim
 import json
 
-model = gensim.models.KeyedVectors.load_word2vec_format('../GoogleNews-vectors-negative300.bin', binary=True)
+#model = gensim.models.KeyedVectors.load_word2vec_format('~/GoogleNews-vectors-negative300.bin', binary=True)
 
-#model = dict()
+model = dict()
 
-with open('./Data/reviews.txt', 'r') as f:
+with open('../Data/movie/reviews.txt', 'r') as f:
     reviews = f.read()
-with open('./Data/labels.txt', 'r') as f:
+with open('../Data/movie/labels.txt', 'r') as f:
     labels_org = f.read()
 
 from string import punctuation
@@ -52,7 +53,7 @@ reviews_ints = []
 for each in reviews:
     reviews_ints.append([vocab_to_int[word] for word in each.split()])
 
-labels = np.array([1 if l == "positive" else 0 for l in labels_org.split()])
+labels = np.array([1 if l == "Positive"  else 0 for l in labels_org.split()])
 
 from collections import Counter
 review_lens = Counter([len(x) for x in reviews_ints])
@@ -60,21 +61,33 @@ print("Zero-length reviews: {}".format(review_lens[0]))
 print("Maximum review length: {}".format(max(review_lens)))
 
 # Filter out that review with 0 length
-reviews_ints = [r[0:200] for r in reviews_ints if len(r) > 0]
+#reviews_ints = [r[0:200] for r in reviews_ints if len(r) > 0]
+
+tr = []
+tl = []
+
+for i in range(len(labels)):
+ if len(reviews_ints[i]) > 0:
+  tr.append(reviews_ints[i])
+  tl.append(labels[i])
+
+reviews_ints = np.array(tr)
+labels = np.array(tl)
 
 from collections import Counter
 review_lens = Counter([len(x) for x in reviews_ints])
 print("Zero-length reviews: {}".format(review_lens[0]))
 print("Maximum review length: {}".format(max(review_lens)))
 
-seq_len = 200
+
+seq_len = max(review_lens)
 features = np.zeros((len(reviews_ints), seq_len), dtype=int)
 # print(features[:10,:100])
 for i, row in enumerate(reviews_ints):
     features[i, -len(row):] = np.array(row)[:seq_len]
 features[:10,:100]
 
-split_frac = 0.8
+split_frac = 0.9
 
 split_index = int(split_frac * len(features))
 
@@ -95,6 +108,11 @@ print("label set: \t\t{}".format(train_y.shape),
       "\nValidation label set: \t{}".format(val_y.shape),
       "\nTest label set: \t\t{}".format(test_y.shape))
 
+#for i in range(10):
+# print(reviews[i],labels[i])
+
+#exit(0)
+
 lstm_size = 256
 lstm_layers = 2
 batch_size = 1
@@ -109,7 +127,7 @@ with tf.name_scope('inputs'):
     labels_ = tf.placeholder(tf.int32, [None, None], name="labels")
     keep_prob = tf.placeholder(tf.float32, name="keep_prob")
 
-embed_size = 300
+embed_size = 10
 
 w2v_embed = np.ndarray([n_words,embed_size])
 
@@ -120,11 +138,16 @@ for i in range(n_words-1):
  else:
    w2v_embed[vocab_to_int[words[i]]] = model[words[i]]
 
+#with open('piyush.pkl','wb') as f:
+#  pickle.dump(w2v_embed,f)
+
+#with open('piyush.pkl','rb') as f:
+# w2v_embed = pickle.load(f)
 
 
 import random
-'''
-idx = random.sample(range(len(train_x)), 1000)
+
+idx = random.sample(range(len(train_x)),10000)
 
 train_x_s = []
 train_y_s = []
@@ -137,7 +160,7 @@ train_x = np.array(train_x_s)
 train_y = np.array(train_y_s)
 test_x = np.array(test_x)
 test_y = np.array(test_y)
-'''
+
 
 train_x_e = np.ndarray((len(train_x), seq_len, embed_size))
 
@@ -152,23 +175,26 @@ for i in range(len(val_x)):
         val_x_e[i][j][:] = w2v_embed[val_x[i][j]]
 
 
+test_x_e = np.ndarray((len(test_x), seq_len, embed_size))
 
+for i in range(len(test_x)):
+    for j in range(seq_len):
+        test_x_e[i][j][:] = w2v_embed[test_x[i][j]]
 
 
 hidden_size = 256
 use_dropout = True
-#vocabulary = n_words
-
+vocabulary = n_words
 
 model1 = Sequential()
-#model1.add(Embedding(vocabulary, embed_size, input_length=mx_sent))
-model1.add(LSTM(embed_size, return_sequences=True, input_shape=(seq_len, embed_size)))
-model1.add(LSTM(embed_size, return_sequences=False))
+model1.add(Embedding(vocabulary, embed_size))
+model1.add(LSTM(embed_size, return_sequences=False, input_shape=(seq_len, embed_size)))
+#model1.add(LSTM(embed_size, return_sequences=False))
 if use_dropout:
     model1.add(Dropout(0.5))
 model1.add(Dense(1, activation='sigmoid', name='out1'))
 
-
+i
 optimizer = Adam()
 # model1.compile(loss='mean_squared_error', optimizer='adam')
 # parallel_model = multi_gpu_model(model, gpus=2)
@@ -179,10 +205,15 @@ parallel_model.compile(loss='binary_crossentropy', optimizer='adam' , metrics=['
 
 print(model1.summary())
 #plot_model(model1,to_file='demo.png',show_shapes=True)
-num_epochs = 50
+num_epochs = 100
 
-parallel_model.fit(x= train_x_e, y=train_y, batch_size=1000, epochs=num_epochs,
-               validation_split=0.1)
+checkpoint = ModelCheckpoint('model-{epoch:03d}.h5', verbose=1, monitor='val_acc',save_best_only=True, mode='auto')
+parallel_model.fit(x= train_x, y=train_y, batch_size=64, epochs=num_epochs,
+               validation_split = 0.1, callbacks = [checkpoint])
 
-print(parallel_model.evaluate([val_sent_e,val_claim_e],val_y))
-parallel_model.save("final_model.hdf5")
+#parallel_model.load_weights('model-001.h5')
+
+print(parallel_model.evaluate(test_x_e,test_y))
+
+#print(parallel_model.evaluate(val_x,val_y))
+#parallel_model.save("final_model.hdf5")

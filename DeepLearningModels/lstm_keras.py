@@ -52,7 +52,7 @@ reviews_ints = []
 for each in reviews:
     reviews_ints.append([vocab_to_int[word] for word in each.split()])
 
-labels = np.array([1 if l == "positive" else 0 for l in labels_org.split()])
+labels = np.array([1 if l == "Positive" else 0 for l in labels_org.split()])
 
 from collections import Counter
 review_lens = Counter([len(x) for x in reviews_ints])
