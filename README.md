@@ -16,3 +16,7 @@ Data Set 2:
 ##SVM
 
 Validation Accuracy for both data sets: 88%
+
+##Random Forest
+
+Validation Accuracy: .83-.87 for data set 1 and .83-.84 for data set 2
